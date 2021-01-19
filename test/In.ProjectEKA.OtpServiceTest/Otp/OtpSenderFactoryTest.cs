@@ -38,7 +38,7 @@ namespace In.ProjectEKA.OtpServiceTest.Otp
                 new FakeOtpSender(null),
                 new List<string>
                 {
-                    "+91-9999999999"
+                    mobileNumber
                 });
 
             var response = otpSenderFactory.ServiceFor(mobileNumber);
