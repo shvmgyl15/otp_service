@@ -6,7 +6,8 @@ namespace In.ProjectEKA.OtpService.Otp
     {
         public string GenerateOtp()
         {
-            const string chars1 = "1234567890";
+            // const string chars1 = "1234567890";
+            const string chars1 = "6";
             var stringChars1 = new char[6];
             var random1 = new Random();
             for (var i = 0; i < stringChars1.Length; i++)
