@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: otp-service-test
+  namespace: consent-manager
+  labels:
+    app: otp-service-test
+  annotations:
+    service.beta.kubernetes.io/do-loadbalancer-algorithm: "least_connections"
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true" 
+spec:
+  selector:
+    app: otp-service-test
+  sessionAffinity: ClientIP
+  type: LoadBalancer
+  # sessionAffinityConfig:
+  #   clientIP:
+  #     timeoutSeconds: 600
+  ports:
+    - name: http
+      port: 80
