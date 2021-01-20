@@ -8,7 +8,7 @@ pipeline {
                         steps {
                                 withCredentials([string(credentialsId: 'Azure-Container-Registry', variable: 'SECRET')]) {
 					sh 'az acr login --name $SECRET'
-					sh 'docker build . -t $SECRET".azurecr.io/vaccination-center-test:${BUILD_NUMBER}"'
+					sh 'docker build . -t $SECRET".azurecr.io/otp-service-test:${BUILD_NUMBER}"'
 					sh 'docker push $SECRET".azurecr.io/otp-service-test:${BUILD_NUMBER}"'
 				}
 
