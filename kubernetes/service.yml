@@ -11,7 +11,7 @@ metadata:
 spec:
   selector:
     app: otp-service-test
-  sessionAffinity: ClientIP
+    #  sessionAffinity: ClientIP
   type: LoadBalancer
   # sessionAffinityConfig:
   #   clientIP:

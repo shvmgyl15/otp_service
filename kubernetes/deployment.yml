@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: otp-service-test
-          image: devinfysurveyappregistry.azurecr.io/otp-service-test:1
+          image: 413379950444.dkr.ecr.us-east-2.amazonaws.com/consent-manager/otp-service:latest
           
 
           ports:

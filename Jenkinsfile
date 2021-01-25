@@ -2,14 +2,14 @@ pipeline {
 
 	agent any
 	stages {
-		
-   
-		stage(' Build and Publish Docker Image to Azure Container Registry') {
+		   
+		stage('Build and Publish Docker Image to Azure Container Registry') {
                         steps {
-                                withCredentials([string(credentialsId: 'Azure-Container-Registry', variable: 'SECRET')]) {
-					sh 'az acr login --name $SECRET'
-					sh 'docker build . -t $SECRET".azurecr.io/otp-service-test:${BUILD_NUMBER}"'
-					sh 'docker push $SECRET".azurecr.io/otp-service-test:${BUILD_NUMBER}"'
+                                withCredentials([string(credentialsId: 'EKS-Region', variable: 'REGION'), string(credentialsId: 'Registry-Name', variable: 'REGISTRY_NAME')]) {
+					sh 'docker login -u AWS -p $(aws ecr get-login-password --region $REGION) $REGISTRY_NAME'
+					sh 'echo $REGISTRY_NAME"/consent-manager/otp-service:${BUILD_NUMBER}"'
+					sh 'docker build . -t  $REGISTRY_NAME"/consent-manager/otp-service:${BUILD_NUMBER}"'
+					sh 'docker push $REGISTRY_NAME"/consent-manager/otp-service:${BUILD_NUMBER}"'
 				}
 
                         }
@@ -24,9 +24,9 @@ pipeline {
                         steps {
 				sh 'kubectl apply -f kubernetes/deployment.yml'
                                 sh 'kubectl apply -f kubernetes/service.yml'
-				
-				withCredentials([string(credentialsId: 'Azure-Container-Registry', variable: 'SECRET')]) {
-                                        sh 'kubectl set image deployment/otp-service-test  otp-service-test=$SECRET".azurecr.io/otp-service-test:${BUILD_NUMBER}" -n consent-manager'
+							
+				withCredentials([string(credentialsId: 'Registry-Name', variable: 'REGISTRY_NAME')]) {
+                                        sh 'kubectl set image deployment/otp-service-test  otp-service-test=$REGISTRY_NAME"/consent-manager/otp-service:${BUILD_NUMBER}" -n consent-manager'
                                 }
                         }
                         post {
@@ -39,5 +39,4 @@ pipeline {
 		
 	}
 }
-
 
